@@ -1,0 +1,37 @@
+<?php
+
+class Entree {
+	public $ingredients = array();
+	
+	public function __construct($ingredients){		
+		
+		if(!is_array($ingredients)){
+			throw new Exception('$ingredients must be an array');
+		}
+		
+		foreach($ingredients as $ing){		
+			if (!$ing instanceof Ingredient){
+			    throw new Exception('Element of $entree must be ingredient object');
+		    }			
+		}
+
+		$this->ingredients = $ingredients;
+	}
+	
+	public function getPrice(){
+		$totalPrice = 0;
+		foreach($this->ingredients as $ing){		
+			$totalPrice += $ing->price;
+		}
+		return $totalPrice;
+		
+	}
+}
+
+$ing = new Ingredient('bread',10);
+$ing2 = new Ingredient('soup',3);
+$ent = new Entree(array($ing, $ing2));
+print $ent->getPrice();
+
+
+?>
