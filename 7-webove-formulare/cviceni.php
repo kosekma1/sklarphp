@@ -9,15 +9,19 @@ print "<h1>Cvičení 1</h1>";
 print_r($_POST);
 print "<br>";
 
-//2. cvičení
+//2. cvičení a 5. cvičení
 function process_form(){
 	foreach($_POST as $value){
 		if (is_array($value)){
-			print_r($value);
-		} else {
-		   print $value."<br>";	
-		}
-		
+			foreach ($value as $item){
+				if(is_array($item)){
+					print_r($item);
+					print "<br>";
+				} else {
+					print $item."<br>";
+				}			
+			}			
+	    }
 	}
 }
 print "<h1>Cvičení 2</h1>";
