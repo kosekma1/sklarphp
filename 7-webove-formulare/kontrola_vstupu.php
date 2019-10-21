@@ -12,7 +12,7 @@ if(is_null($ok) || ($ok===false)){
 	$errors[] = 'Please enter a valid age.';
 }
 
-//7-10 - filtrování vstupu v pohzblivé čárce
+//7-10 - filtrování vstupu v pohyblivé čárce
 $ok = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
 if(is_null($ok) || ($ok===false)){
 	$errors[] = 'Please enter a valid price.';
