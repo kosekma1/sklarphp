@@ -4,6 +4,7 @@
 $_POST['noodle'] = 'barbecued pork';
 $_POST['sweet'] = array('puff','ricemat',);
 $_POST['sweet_q'] = 4;
+$_POST['submit'] = 'Order';
 
 print "<h1>Cvičení 1</h1>";
 print_r($_POST);
@@ -11,7 +12,7 @@ print "<br>";
 
 //2. cvičení a 5. cvičení
 function process_form(){
-	foreach($_POST as $value){
+	foreach($_POST as $key=>$value){
 		if (is_array($value)){
 			foreach ($value as $item){
 				if(is_array($item)){
@@ -21,7 +22,10 @@ function process_form(){
 					print $item."<br>";
 				}			
 			}			
-	    }
+	    } else {
+			print htmlentities($key)." : ".htmlentities($value)."<br>";
+		}
+		
 	}
 }
 print "<h1>Cvičení 2</h1>";
@@ -48,6 +52,10 @@ function calc(){
 		if(!in_array($input['operator'], ['+','-','/','*'])){
 			$errors[] = 'You have to select right operator';
 		}
+		
+		if($input['operator'] == '/' && $input['operand2']==0){
+			$errors[] = 'Division by 0 is not allowed.';
+		}
 				
 		if($errors){
 			print "<ul><li>";
@@ -58,9 +66,7 @@ function calc(){
 			if ($input['operator']=='-') { printf("%.2f - %.2f = %.2f" , $input['operand1'], $input['operand2'], ($input['operand1']-$input['operand2'])); }				
 			if ($input['operator']=='*') { printf("%.2f * %.2f = %.2f" , $input['operand1'], $input['operand2'], ($input['operand1']*$input['operand2'])); }			
 			if ($input['operator']=='/') { printf("%.2f / %.2f = %.2f" , $input['operand1'], $input['operand2'], ($input['operand1']/$input['operand2'])); }							
-		}
-		
-		
+		}				
 	} else {
 		print <<<_HTML_
 <form method="POST" action="{$_SERVER['PHP_SELF']}">

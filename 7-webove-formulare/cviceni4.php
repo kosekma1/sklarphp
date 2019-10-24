@@ -172,9 +172,8 @@ function validate_form(){
 		
 		$input['width'] = filter_input(INPUT_POST,'width', FILTER_VALIDATE_FLOAT);
 		$input['height'] = filter_input(INPUT_POST,'height', FILTER_VALIDATE_FLOAT);
-		$input['depth'] = filter_input(INPUT_POST,'depth', FILTER_VALIDATE_FLOAT);
-		
-		$input['operator'] = $_POST['operator'] ?? '';
+		$input['depth'] = filter_input(INPUT_POST,'depth', FILTER_VALIDATE_FLOAT);			
+		$input['weight'] = filter_input(INPUT_POST,'weight', FILTER_VALIDATE_FLOAT);
 				
 		if(is_null($input['width']) || ($input['width']===false) || ($input['width']<=0 && $input['height']>91.5)){
 			$errors[] = 'You must enter number for width greater than 0 and less than 91.5 cm.';
@@ -185,14 +184,22 @@ function validate_form(){
 		}
 				
 		if(is_null($input['depth']) || ($input['depth']===false) || ($input['depth']<=0 && $input['height']>91.5)){
-			$errors[] = 'You must enter number for height greater than 0 and less than 91.5 cm.';
+			$errors[] = 'You must enter number for depth greater than 0 and less than 91.5 cm.';
 		}   
+		
+		if(is_null($input['weight']) || ($input['weight']===false) || ($input['weight']<=0 && $input['weight']>68.2)){
+			$errors[] = 'You must enter number for weight greater than 0 and less than 68.2 kg';
+		}   
+		
 		return array($errors, $input);
 }
 
 function process_form($input){
-	print $GLOBALS['us_state_abbrevs_names'][$input['address_sender_state']]."<br>";
-	print $GLOBALS['us_state_abbrevs_names'][$input['address_receiver_state']]."<br>";
+	printf("<strong>Sender:</strong> %s, %s, %s, %s, %s",  $input['address_sender_name'], $input['address_sender_street'], $input['address_sender_city'], $input['address_sender_zip'], $GLOBALS['us_state_abbrevs_names'][$input['address_sender_state']] );
+	print "<br>";
+	printf("<strong>Receiver:</strong> %s, %s, %s, %s, %s",  $input['address_receiver_name'], $input['address_receiver_street'], $input['address_receiver_city'], $input['address_receiver_zip'], $GLOBALS['us_state_abbrevs_names'][$input['address_receiver_state']]);
+	print "<br>";
+	printf("<strong>Package:</strong> width %0.2f cm, height %0.2f cm, depth %0.2f cm and weight %0.2f kg", $input['width'], $input['height'], $input['depth'], $input['weight']);
 }
 
 function parcel(){
