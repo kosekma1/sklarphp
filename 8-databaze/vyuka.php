@@ -130,15 +130,44 @@ try {
 	print "Couldn't delete rows ".$e->getMessage();
 }
 
-//8-17 - zjištění, kolik řádků ovlivnil příkaz UPDATE nebo DELETE
+//8-21 - zjištění, kolik řádků ovlivnil příkaz UPDATE nebo DELETE
 try {
 	$db = new PDO('sqlite:restaurant.db');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
-	$count = $db->exec("UPDATE dishes SET price = price + 2 WHERE price > 3");	
+	$count = $db->exec('UPDATE dishes SET price = price + 2 WHERE price > 3');	
 	print '<br>Change the price of '.$count.' rows';	
 } catch (PDOException $e){
 	print "Couldn't delete rows ".$e->getMessage();
 }
+
+// 8-26 - bezpečné vložení dat do formuláře
+$_POST['dish_name'] = 'Svickova';
+try {
+	$db = new PDO('sqlite:restaurant.db');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$stmt = $db->prepare('INSERT INTO dishes (dish_name) VALUES (?)');	
+	$count = $stmt->execute(array($_POST['dish_name']));	
+	print '<br>Updated rows '.$count.' rows';	
+} catch (PDOException $e){
+	print "Couldn't insert rows ".$e->getMessage();
+}
+
+// 8-27 - několik zástupných otazníků
+$_POST['new_dish_name'] = 'pohanka se zeleniou';
+$_POST['new_price'] = '20';
+$_POST['is_spicy'] = '1';
+try {
+	$db = new PDO('sqlite:restaurant.db');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$stmt = $db->prepare('INSERT INTO dishes (dish_name, price, is_spicy) VALUES (?,?,?)');
+	$count = $stmt->execute(array($_POST['new_dish_name'], $_POST['new_price'], $_POST['is_spicy']));
+	print '<br>Updated rows '.$count.' rows';	
+} catch (PDOException $e){
+	print "Couldn't insert rows ".$e->getMessage();
+}
+
+
+
 
 ?>
